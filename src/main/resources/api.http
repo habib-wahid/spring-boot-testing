@@ -1,0 +1,20 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###
+
+POST http://localhost:8080/api/v1/student
+Content-Type: application/json
+
+{
+  "id": null,
+  "name": "habib",
+  "email": "habib@gmail.com",
+  "age": 10,
+  "gender": "Male",
+  "surname": "wahid"
+}
+
+###
+GET http://localhost:8080/api/v1/student/3
