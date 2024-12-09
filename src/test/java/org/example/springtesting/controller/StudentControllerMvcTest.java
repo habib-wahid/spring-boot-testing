@@ -55,4 +55,69 @@ public class StudentControllerMvcTest {
                 .andExpect(jsonPath("$.id").value(1L));
     }
 
+
+    @Test
+    void getByIdTest() throws Exception {
+        StudentResponse studentResponse = StudentResponse.builder()
+                .id(1L)
+                .name("John")
+                .email("john@example.com")
+                .surname("Smith")
+                .age(10)
+                .gender("male")
+                .build();
+
+        when(studentService.getStudentById(Mockito.anyLong())).thenReturn(studentResponse);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/v1/student/1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value("John"));
+    }
+
+    @Test
+    void getByIdInvalidTest() throws Exception {
+        StudentResponse studentResponse = StudentResponse.builder()
+                .id(1L)
+                .name("John")
+                .email("john@example.com")
+                .surname("Smith")
+                .age(10)
+                .gender("male")
+                .build();
+
+        when(studentService.getStudentById(Mockito.anyLong())).thenReturn(studentResponse);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/student/abc")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void getByNameTest() throws Exception {
+        StudentResponse studentResponse = StudentResponse.builder()
+                .id(1L)
+                .name("John")
+                .email("john@example.com")
+                .surname("Smith")
+                .age(10)
+                .gender("male")
+                .build();
+
+        when(studentService.getStudentByName("John")).thenReturn(studentResponse);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/v1/student/name/John")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1L))
+                .andExpect(jsonPath("$.name").value("John"));
+    }
+
 }
