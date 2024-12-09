@@ -58,4 +58,32 @@ public class StudentServiceTest {
         assertNotNull(studentResponse);
         assertEquals(student.getId(), studentResponse.getId());
     }
+
+    @Test
+    void getStudentByNameTest() {
+        Student student = Student.builder()
+                .id(1L)
+                .name("John")
+                .gender("male")
+                .email("john@example.com")
+                .surname("Smith")
+                .age(10)
+                .build();
+
+        StudentResponse studentResponse = StudentResponse.builder()
+                .id(1L)
+                .name("John")
+                .gender("male")
+                .email("john@example.com")
+                .surname("Smith")
+                .age(10)
+                .build();
+
+        when(studentRepository.findByName(Mockito.anyString())).thenReturn(student);
+        when(studentMapper.toStudentResponse(Mockito.any(Student.class))).thenReturn(studentResponse);
+
+        studentResponse = studentService.getStudentByName("John");
+        assertNotNull(studentResponse);
+        assertEquals(student.getId(), studentResponse.getId());
+    }
 }
